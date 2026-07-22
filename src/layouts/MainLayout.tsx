@@ -1,13 +1,15 @@
+import Header from "@/components/Header";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   return (
-    <div>
-      <header>Expense Tracker</header>
+    <ProtectedRoute>
+      <Header />
 
       <main>
         <Outlet />
       </main>
-    </div>
+    </ProtectedRoute>
   );
 }

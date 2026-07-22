@@ -1,13 +1,16 @@
+import { GuestRoute } from "@/components/GuestRoute";
 import { Outlet } from "react-router-dom";
 
 export default function AuthLayout() {
   return (
-    <div>
-      <header>Expense Tracker</header>
+    <GuestRoute>
+      <div>
+        <header>Expense Tracker</header>
 
-      <main>
-        <Outlet />
-      </main>
-    </div>
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    </GuestRoute>
   );
 }

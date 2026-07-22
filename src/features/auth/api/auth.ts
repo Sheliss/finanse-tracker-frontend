@@ -31,10 +31,14 @@ export async function logout() {
 }
 
 export async function getCurrentUser() {
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error) {
     throw new Error(error.message);
   }
-  return data.user;
+
+  return user;
 }
