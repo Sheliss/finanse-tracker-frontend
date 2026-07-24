@@ -4,6 +4,7 @@ import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import AuthLayout from "../layouts/AuthLayout";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
+import ExpensesPage from "@/features/expenses/pages/ExpensesPage";
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "expenses",
-        element: <div>Expenses</div>,
+        element: <ExpensesPage />,
       },
       {
         path: "settings",

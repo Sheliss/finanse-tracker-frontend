@@ -26,7 +26,6 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await registerMutation.mutateAsync(data);
       const result = await registerMutation.mutateAsync(data);
 
       if (!result.session) {
@@ -37,8 +36,6 @@ const RegisterPage = () => {
       console.error("Registration failed:", error);
     }
   };
-
-  console.log(registeredEmail);
 
   if (registeredEmail) {
     return <SuccessCard email={registeredEmail} />;
