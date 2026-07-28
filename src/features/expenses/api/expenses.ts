@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import type { Expense } from "../types";
+import type { ExpenseFormData } from "../schemas/expense.schema";
 
 export async function getExpenses() {
   const { data, error } = await supabase
@@ -12,4 +13,18 @@ export async function getExpenses() {
   }
 
   return data as Expense[];
+}
+
+export async function createExpense(expense: ExpenseFormData) {
+  const { data, error } = await supabase
+    .from("expenses")
+    .insert(expense)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 }
