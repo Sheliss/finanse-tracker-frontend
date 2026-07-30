@@ -28,3 +28,34 @@ export async function createExpense(expense: ExpenseFormData) {
 
   return data;
 }
+
+export async function deleteExpense(expenseID: string) {
+  const { error } = await supabase
+    .from("expenses")
+    .delete()
+    .eq("id", expenseID);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+type UpdateExpenseParams = {
+  id: string;
+  formData: ExpenseFormData;
+};
+
+export async function updateExpense({ id, formData }: UpdateExpenseParams) {
+  const { data, error } = await supabase
+    .from("expenses")
+    .update(formData)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

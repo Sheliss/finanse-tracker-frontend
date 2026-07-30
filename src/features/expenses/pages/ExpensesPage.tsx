@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useExpenses } from "../hooks/useExpenses";
 import Modal from "@/components/Modal";
-import AddExpenseForm from "../components/AddExpenseForm";
+import ExpenseCard from "../components/ExpenseCard";
+import type { ExpenseFormData } from "../schemas/expense.schema";
+import { useCreateExpense } from "../hooks/useCreateExpense";
+import ExpenseForm from "../components/ExpenseForm";
 
 const ExpensesPage = () => {
   const { data: expenses, isLoading, error } = useExpenses();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const addExpense = useCreateExpense();
 
   if (isLoading) {
     return <div>{`Loading ∘ ∘ ∘ ( °ヮ° )`}</div>;
@@ -19,27 +23,40 @@ const ExpensesPage = () => {
     setIsAddModalOpen(false);
   };
 
+  const onSubmit = async (data: ExpenseFormData) => {
+    try {
+      await addExpense.mutateAsync(data);
+      onModalClose();
+    } catch (error) {
+      console.error("Failed to add expense:", error);
+    }
+  };
+
   return (
-    <>
+    <div className="p-5">
       <button
-        className="cursor-pointer"
+        className="cursor-pointer p-1 outline-1"
         onClick={() => setIsAddModalOpen(true)}
       >
         Add Expense
       </button>
-      <div>
+      <div className="flex flex-col gap-2 items-center">
         {expenses?.map((expense) => (
-          <div key={expense.id}>
-            {expense.title} - {expense.amount}
-          </div>
+          <ExpenseCard key={expense.id} expense={expense} />
         ))}
       </div>
       {isAddModalOpen && (
         <Modal onClose={onModalClose}>
-          <AddExpenseForm onClose={onModalClose} />
+          <ExpenseForm
+            onClose={onModalClose}
+            onSubmit={onSubmit}
+            submitLabel="Add"
+            loadingLabel="Adding..."
+            isPending={addExpense.isPending}
+          />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 export default ExpensesPage;

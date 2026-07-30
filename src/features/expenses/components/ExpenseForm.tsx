@@ -6,21 +6,31 @@ import {
   type ExpenseFormInput,
 } from "../schemas/expense.schema";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
-import { useCreateExpense } from "../hooks/useCreateExpense";
 
 type OwnProps = {
   onClose: () => void;
+  initialValues?: Partial<ExpenseFormData>;
+  onSubmit: (data: ExpenseFormData) => Promise<void>;
+  submitLabel: string;
+  loadingLabel: string;
+  isPending?: boolean;
 };
 
-const AddExpenseForm: React.FC<OwnProps> = ({ onClose }) => {
-  const addExpenseMutation = useCreateExpense();
+const ExpenseForm: React.FC<OwnProps> = ({
+  onClose,
+  onSubmit,
+  initialValues,
+  submitLabel,
+  loadingLabel,
+  isPending,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ExpenseFormInput, unknown, ExpenseFormData>({
     resolver: zodResolver(expenseSchema),
-    defaultValues: {
+    defaultValues: initialValues ?? {
       title: "",
       amount: undefined,
       category: "",
@@ -28,15 +38,6 @@ const AddExpenseForm: React.FC<OwnProps> = ({ onClose }) => {
       note: "",
     },
   });
-
-  const onSubmit = async (data: ExpenseFormData) => {
-    try {
-      await addExpenseMutation.mutateAsync(data);
-      onClose();
-    } catch (error) {
-      console.error("Failed to add expense:", error);
-    }
-  };
 
   return (
     <div className="p-3">
@@ -87,14 +88,14 @@ const AddExpenseForm: React.FC<OwnProps> = ({ onClose }) => {
         />
         <div className="flex gap-3">
           <button
-            disabled={addExpenseMutation.isPending}
+            disabled={isPending}
             className="cursor-pointer outline py-1 px-2 w-16"
             type="submit"
           >
-            {addExpenseMutation.isPending ? "Adding..." : "Add"}
+            {isPending ? loadingLabel : submitLabel}
           </button>
           <button
-            disabled={addExpenseMutation.isPending}
+            disabled={isPending}
             className="cursor-pointer outline py-1 px-2 w-16"
             onClick={onClose}
           >
@@ -105,4 +106,4 @@ const AddExpenseForm: React.FC<OwnProps> = ({ onClose }) => {
     </div>
   );
 };
-export default AddExpenseForm;
+export default ExpenseForm;
