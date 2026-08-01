@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
+import { EXPENSE_TYPES } from "../constants/types";
 
 export const expenseSchema = z.object({
   title: z
@@ -10,6 +11,9 @@ export const expenseSchema = z.object({
   amount: z.coerce
     .number({ error: "Amount is required" })
     .positive("Amount must be greater than zero"),
+  type: z.enum(EXPENSE_TYPES, {
+    error: "Type is required",
+  }),
   category: z.preprocess(
     (value) => (value === "" ? undefined : value),
     z.enum(EXPENSE_CATEGORIES, {

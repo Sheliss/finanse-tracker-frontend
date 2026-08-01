@@ -6,6 +6,7 @@ import {
   type ExpenseFormInput,
 } from "../schemas/expense.schema";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
+import { EXPENSE_TYPES } from "../constants/types";
 
 type OwnProps = {
   onClose: () => void;
@@ -33,6 +34,7 @@ const ExpenseForm: React.FC<OwnProps> = ({
     defaultValues: initialValues ?? {
       title: "",
       amount: undefined,
+      type: "Expense",
       category: "",
       date: new Date().toISOString().split("T")[0],
       note: "",
@@ -62,6 +64,16 @@ const ExpenseForm: React.FC<OwnProps> = ({
           {...register("amount")}
           placeholder="Amount"
         />
+        {errors.type && (
+          <p className="text-red-500 text-sm">{errors.type.message}</p>
+        )}
+        <select className="outline p-1" {...register("type")}>
+          {EXPENSE_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
         {errors.category && (
           <p className="text-red-500 text-sm">{errors.category.message}</p>
         )}

@@ -7,4 +7,5 @@ export type Expense = {
   date: string;
   note: string | null;
   created_at: string;
+  type: string;
 };

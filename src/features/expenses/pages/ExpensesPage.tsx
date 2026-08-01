@@ -33,7 +33,7 @@ const ExpensesPage = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-5 w-full">
       <button
         className="cursor-pointer p-1 outline-1"
         onClick={() => setIsAddModalOpen(true)}
