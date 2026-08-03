@@ -6,7 +6,7 @@ type OwnProps = {
 
 const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
   return (
-    <div className="w-120 p-2 outline-1">
+    <div className=" p-2 outline-1">
       <div className="mb-1 text-center color">RecentExpensesCard</div>
       <div>
         {recentExpenses.map((expense) => (
