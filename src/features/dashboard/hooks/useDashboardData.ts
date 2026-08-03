@@ -39,6 +39,13 @@ export function useDashboardData() {
     0,
   );
 
+  const currentMonthExpenseCount = currentMonthExpenses.length;
+
+  const currentMonthAverageExpense =
+    currentMonthExpenseCount > 0
+      ? currentMonthExpensesTotal / currentMonthExpenseCount
+      : 0;
+
   const currentMonthIncomeTotal = currentMonthIncome.reduce(
     (sum, expense) => sum + expense.amount,
     0,
@@ -51,7 +58,7 @@ export function useDashboardData() {
     )
     .slice(0, 5);
 
-  const spendingByCategory = currentMonthExpenses.reduce(
+  const groupedCategorySpending = currentMonthExpenses.reduce(
     (acc, expense) => {
       acc[expense.category] = (acc[expense.category] ?? 0) + expense.amount;
       return acc;
@@ -59,7 +66,16 @@ export function useDashboardData() {
     {} as Record<string, number>,
   );
 
+  const spendingByCategory = Object.entries(groupedCategorySpending).map(
+    ([category, amount]) => ({
+      category,
+      amount,
+    }),
+  );
+
   return {
+    currentMonthAverageExpense,
+    currentMonthExpenseCount,
     spendingByCategory,
     currentMonthExpensesTotal,
     currentMonthIncomeTotal,
