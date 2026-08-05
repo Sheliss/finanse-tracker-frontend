@@ -1,4 +1,6 @@
 import { useExpenses } from "@/features/expenses/hooks/useExpenses";
+import type { SpendingByCategory } from "../types";
+import type { ExpenseCategory } from "@/features/expenses/constants/expenseCategories";
 
 export function useDashboardData() {
   const { data: expenses = [], isLoading, error } = useExpenses();
@@ -66,12 +68,12 @@ export function useDashboardData() {
     {} as Record<string, number>,
   );
 
-  const spendingByCategory = Object.entries(groupedCategorySpending).map(
-    ([category, amount]) => ({
-      category,
-      amount,
-    }),
-  );
+  const spendingByCategory: SpendingByCategory[] = Object.entries(
+    groupedCategorySpending,
+  ).map(([category, amount]) => ({
+    category: category as ExpenseCategory,
+    amount,
+  }));
 
   return {
     currentMonthAverageExpense,

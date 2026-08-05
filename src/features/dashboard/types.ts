@@ -1,4 +1,6 @@
+import type { ExpenseCategory } from "../expenses/constants/expenseCategories";
+
 export type SpendingByCategory = {
-  category: string;
+  category: ExpenseCategory;
   amount: number;
 };

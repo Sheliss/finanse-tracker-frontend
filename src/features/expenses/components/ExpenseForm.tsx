@@ -5,8 +5,8 @@ import {
   type ExpenseFormData,
   type ExpenseFormInput,
 } from "../schemas/expense.schema";
-import { EXPENSE_CATEGORIES } from "../constants/categories";
-import { EXPENSE_TYPES } from "../constants/types";
+import { EXPENSE_CATEGORIES } from "../constants/expenseCategories";
+import { EXPENSE_TYPES } from "../../../types/expense";
 
 type OwnProps = {
   onClose: () => void;

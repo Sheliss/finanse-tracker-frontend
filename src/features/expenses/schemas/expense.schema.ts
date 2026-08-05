@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { EXPENSE_CATEGORIES } from "../constants/categories";
-import { EXPENSE_TYPES } from "../constants/types";
+import { EXPENSE_CATEGORIES } from "../constants/expenseCategories";
+import { EXPENSE_TYPES } from "../../../types/expense";
 
 export const expenseSchema = z.object({
   title: z
