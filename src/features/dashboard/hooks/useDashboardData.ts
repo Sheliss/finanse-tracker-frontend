@@ -1,5 +1,5 @@
 import { useExpenses } from "@/features/expenses/hooks/useExpenses";
-import type { SpendingByCategory } from "../types";
+import type { SpendingByCategory, SpendingsByMonth } from "../types";
 import type { ExpenseCategory } from "@/features/expenses/constants/expenseCategories";
 
 export function useDashboardData() {
@@ -43,6 +43,28 @@ export function useDashboardData() {
 
   const currentMonthExpenseCount = currentMonthExpenses.length;
 
+  const sixMonthsExpenses: SpendingsByMonth[] = [];
+
+  for (let pastMonths = 5; pastMonths >= 0; pastMonths--) {
+    const date = new Date(now.getFullYear(), now.getMonth() - pastMonths);
+
+    sixMonthsExpenses.push({
+      month: date.toLocaleString("en-US", { month: "short" }),
+      year: date.getFullYear(),
+      amount: expenses
+        .filter((expense) => {
+          const expenseDate = new Date(expense.date);
+
+          return (
+            expense.type === "Expense" &&
+            expenseDate.getMonth() === date.getMonth() &&
+            expenseDate.getFullYear() === date.getFullYear()
+          );
+        })
+        .reduce((sum, expense) => sum + expense.amount, 0),
+    });
+  }
+
   const currentMonthAverageExpense =
     currentMonthExpenseCount > 0
       ? currentMonthExpensesTotal / currentMonthExpenseCount
@@ -76,6 +98,7 @@ export function useDashboardData() {
   }));
 
   return {
+    sixMonthsExpenses,
     currentMonthAverageExpense,
     currentMonthExpenseCount,
     spendingByCategory,

@@ -13,6 +13,7 @@ const DashboardPage = () => {
     spendingByCategory,
     currentMonthIncomeTotal,
     currentMonthExpensesTotal,
+    sixMonthsExpenses,
     totalBalance,
     recentExpenses,
     isLoading,
@@ -27,13 +28,15 @@ const DashboardPage = () => {
     return <div>{`Error: ${error.message}`}</div>;
   }
 
+  console.log(sixMonthsExpenses);
+
   return (
     <div className="p-2">
       <div className="grid grid-cols-12 w-full gap-2">
-        <DashboardCard className="col-span-6">
+        <DashboardCard className="col-span-2">
           <BalanceCard balance={totalBalance} />
         </DashboardCard>
-        <DashboardCard className="col-span-6">
+        <DashboardCard className="col-span-10">
           <ThisMonthCard
             income={currentMonthIncomeTotal}
             expenses={currentMonthExpensesTotal}
@@ -50,6 +53,7 @@ const DashboardPage = () => {
             totalSpent={currentMonthExpensesTotal}
             totalSpendingsAmount={currentMonthExpenseCount}
             totalSpentAverage={currentMonthAverageExpense}
+            chartData={sixMonthsExpenses}
           />
         </DashboardCard>
       </div>
