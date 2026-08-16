@@ -4,10 +4,12 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
+  Sector,
   Tooltip,
 } from "recharts";
 import type { SpendingByCategory } from "../../types";
-import { EXPENSE_COLORS } from "../../constants/expenseColors";
+import { EXPENSE_COLORS } from "../../../../constants/expenseConstants";
+import ChartTooltip from "./ChartTooltip";
 
 type OwnProps = {
   data: SpendingByCategory[];
@@ -22,7 +24,15 @@ const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
     <>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
-          <Pie data={data} dataKey="amount" nameKey="category" label>
+          <Pie
+            data={data}
+            dataKey="amount"
+            nameKey="category"
+            activeShape={(props) => (
+              <Sector {...props} outerRadius={(props.outerRadius ?? 0) + 8} />
+            )}
+            label={({ value }) => `$${value}`}
+          >
             {data.map((entry, index) => (
               // TODO: Replace Cell with the shape prop when upgrading to Recharts 4.
               <Cell
@@ -31,11 +41,10 @@ const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
               />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip content={<ChartTooltip />} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
-      ;
     </>
   );
 };

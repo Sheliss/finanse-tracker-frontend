@@ -1,1 +1,20 @@
 @import "tailwindcss";
+@theme {
+  --text-xs--line-height: 1;
+  --text-sm--line-height: 1;
+  --text-base--line-height: 1;
+  --text-lg--line-height: 1;
+  --text-xl--line-height: 1;
+  --text-2xl--line-height: 1;
+  --text-3xl--line-height: 1;
+  --text-4xl--line-height: 1;
+  --text-5xl--line-height: 1;
+  --text-6xl--line-height: 1;
+  --text-7xl--line-height: 1;
+  --text-8xl--line-height: 1;
+  --text-9xl--line-height: 1;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+}

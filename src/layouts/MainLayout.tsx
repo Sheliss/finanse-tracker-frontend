@@ -6,17 +6,19 @@ import { Outlet } from "react-router-dom";
 export default function MainLayout() {
   return (
     <ProtectedRoute>
-      <div className="flex flex-col min-h-screen w-full">
-        <Header />
+      <div className="grid grid-cols-12 h-screen">
+        <div className="col-span-2">
+          <Sidebar />
+        </div>
 
-        <main className="grid grid-cols-12 w-full flex-1">
-          <div className="col-span-2">
-            <Sidebar />
+        <div className="col-span-10 w-full flex h-screen flex-col">
+          <div>
+            <Header />
           </div>
-          <div className="col-span-10">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-neutral-100">
             <Outlet />
           </div>
-        </main>
+        </div>
       </div>
     </ProtectedRoute>
   );

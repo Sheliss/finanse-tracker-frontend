@@ -43,12 +43,12 @@ export function useDashboardData() {
 
   const currentMonthExpenseCount = currentMonthExpenses.length;
 
-  const sixMonthsExpenses: SpendingsByMonth[] = [];
+  const pastMonthsExpenses: SpendingsByMonth[] = [];
 
-  for (let pastMonths = 5; pastMonths >= 0; pastMonths--) {
+  for (let pastMonths = 11; pastMonths >= 0; pastMonths--) {
     const date = new Date(now.getFullYear(), now.getMonth() - pastMonths);
 
-    sixMonthsExpenses.push({
+    pastMonthsExpenses.push({
       month: date.toLocaleString("en-US", { month: "short" }),
       year: date.getFullYear(),
       amount: expenses
@@ -98,7 +98,7 @@ export function useDashboardData() {
   }));
 
   return {
-    sixMonthsExpenses,
+    pastMonthsExpenses,
     currentMonthAverageExpense,
     currentMonthExpenseCount,
     spendingByCategory,

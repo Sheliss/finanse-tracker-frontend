@@ -6,6 +6,12 @@ type OwnProps = {
 };
 
 const DashboardCard: React.FC<OwnProps> = ({ children, className }) => {
-  return <div className={`${className} outline-1 p-2`}>{children}</div>;
+  return (
+    <div
+      className={`${className} border rounded border-neutral-300 bg-white p-4`}
+    >
+      {children}
+    </div>
+  );
 };
 export default DashboardCard;

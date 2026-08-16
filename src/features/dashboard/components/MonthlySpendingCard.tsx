@@ -2,26 +2,14 @@ import type { SpendingsByMonth } from "../types";
 import SpendingByMonthChart from "./charts/SpendingByMonthChart";
 
 type OwnProps = {
-  totalSpent: number;
-  totalSpendingsAmount: number;
-  totalSpentAverage: number;
   chartData: SpendingsByMonth[];
 };
 
-const MonthlySpendingCard: React.FC<OwnProps> = ({
-  totalSpent,
-  totalSpendingsAmount,
-  totalSpentAverage,
-  chartData,
-}) => {
+const MonthlySpendingCard: React.FC<OwnProps> = ({ chartData }) => {
   return (
-    <div>
-      <div>
-        <div>${totalSpent} spent</div>
-        <div>{totalSpendingsAmount} transactions</div>
-        <div>Avg: ${Math.trunc(totalSpentAverage)}</div>
-      </div>
-      <div>
+    <div className="flex flex-col items-center">
+      <div className="mb-4 font-bold text-lg">Spending history</div>
+      <div className="w-full">
         <SpendingByMonthChart chartData={chartData} />
       </div>
     </div>

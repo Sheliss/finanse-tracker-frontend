@@ -13,8 +13,8 @@ const Modal: React.FC<OwnProps> = ({ onClose, children }) => {
         onClick={onClose}
       />
 
-      <div className="fixed inset-0 flex items-center justify-center p-4 z-200 pointer-events-none">
-        <div className="p-2 rounded-xl bg-white pointer-events-auto">
+      <div className="fixed inset-0 flex items-center justify-center p-4 z-200 pointer-events-none shadow">
+        <div className="p-4 border border-neutral-300 rounded-xl bg-neutral-100 pointer-events-auto">
           {children}
         </div>
       </div>

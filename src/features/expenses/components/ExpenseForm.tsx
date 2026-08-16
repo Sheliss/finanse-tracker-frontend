@@ -7,6 +7,7 @@ import {
 } from "../schemas/expense.schema";
 import { EXPENSE_CATEGORIES } from "../constants/expenseCategories";
 import { EXPENSE_TYPES } from "../../../types/expense";
+import Button from "@/components/Button";
 
 type OwnProps = {
   onClose: () => void;
@@ -41,78 +42,87 @@ const ExpenseForm: React.FC<OwnProps> = ({
     },
   });
 
+  const INPUT_STYLES =
+    "w-full px-3 py-2 bg-white border border-neutral-300 rounded";
+  const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
+
   return (
-    <div className="p-3">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        {errors.title && (
-          <p className="text-red-500 text-sm">{errors.title.message}</p>
-        )}
-        <input
-          className="outline p-1"
-          type="text"
-          {...register("title")}
-          placeholder="Title"
-        />
-        {errors.amount && (
-          <p className="text-red-500 text-sm">{errors.amount.message}</p>
-        )}
-        <input
-          className="outline p-1"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          {...register("amount")}
-          placeholder="Amount"
-        />
-        {errors.type && (
-          <p className="text-red-500 text-sm">{errors.type.message}</p>
-        )}
-        <select className="outline p-1" {...register("type")}>
-          {EXPENSE_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        {errors.category && (
-          <p className="text-red-500 text-sm">{errors.category.message}</p>
-        )}
-        <select className="outline p-1" {...register("category")}>
-          <option value="">Select category</option>
-          {EXPENSE_CATEGORIES.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-        {errors.date && (
-          <p className="text-red-500 text-sm">{errors.date.message}</p>
-        )}
-        <input className="outline p-1" type="date" {...register("date")} />
-        {errors.note && (
-          <p className="text-red-500 text-sm">{errors.note.message}</p>
-        )}
-        <input
-          className="outline p-1"
-          type="text"
-          placeholder="Note (optional)"
-          {...register("note")}
-        />
+    <div className="p-3 w-70">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <div className="relative">
+          {errors.title && (
+            <p className={INPUT_ERROR_LABEL}>{errors.title.message}</p>
+          )}
+          <input
+            className={INPUT_STYLES}
+            type="text"
+            {...register("title")}
+            placeholder="Title"
+          />
+        </div>
+        <div className="relative">
+          {errors.amount && (
+            <p className={INPUT_ERROR_LABEL}>{errors.amount.message}</p>
+          )}
+
+          <input
+            className={INPUT_STYLES}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            {...register("amount")}
+            placeholder="Amount"
+          />
+        </div>
+        <div className="relative">
+          {errors.type && (
+            <p className={INPUT_ERROR_LABEL}>{errors.type.message}</p>
+          )}
+          <select className={INPUT_STYLES} {...register("type")}>
+            {EXPENSE_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="relative">
+          {errors.category && (
+            <p className={INPUT_ERROR_LABEL}>{errors.category.message}</p>
+          )}
+          <select className={INPUT_STYLES} {...register("category")}>
+            <option value="">Select category</option>
+            {EXPENSE_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="relative">
+          {errors.date && (
+            <p className={INPUT_ERROR_LABEL}>{errors.date.message}</p>
+          )}
+
+          <input className={INPUT_STYLES} type="date" {...register("date")} />
+        </div>
+        <div className="relative">
+          {errors.note && (
+            <p className={INPUT_ERROR_LABEL}>{errors.note.message}</p>
+          )}
+          <textarea
+            className={INPUT_STYLES}
+            placeholder="Note (optional)"
+            {...register("note")}
+          />
+        </div>
         <div className="flex gap-3">
-          <button
-            disabled={isPending}
-            className="cursor-pointer outline py-1 px-2 w-16"
-            type="submit"
-          >
+          <Button disabled={isPending} type="submit">
             {isPending ? loadingLabel : submitLabel}
-          </button>
-          <button
-            disabled={isPending}
-            className="cursor-pointer outline py-1 px-2 w-16"
-            onClick={onClose}
-          >
+          </Button>
+          <Button disabled={isPending} onClick={onClose}>
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
     </div>

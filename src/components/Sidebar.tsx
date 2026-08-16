@@ -1,19 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import SidebarButton from "./SidebarButton";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const currentRoute = useLocation();
 
   return (
-    <div className=" p-2 bg-gray-200 h-full flex flex-col">
-      <button className="p-2 cursor-pointer" onClick={() => navigate("/")}>
+    <div className=" bg-neutral-900 flex flex-col col-span-2 h-screen">
+      <div className="h-16 pl-12 mb-4 font-bold text-xl text-white flex items-center border-b border-gray-800">
+        Expense Tracker
+      </div>
+      <SidebarButton
+        isActive={currentRoute.pathname === "/"}
+        onClick={() => navigate("/")}
+      >
         Dashboard
-      </button>
-      <button
-        className="p-2 cursor-pointer"
+      </SidebarButton>
+      <SidebarButton
+        isActive={currentRoute.pathname === "/expenses"}
         onClick={() => navigate("/expenses")}
       >
         Expenses
-      </button>
+      </SidebarButton>
     </div>
   );
 };

@@ -8,12 +8,8 @@ type OwnProps = {
 const SpendingsByCategoryCard: React.FC<OwnProps> = ({ spendings }) => {
   return (
     <div>
-      <div>
-        {spendings.map((spending) => (
-          <div key={spending.category}>
-            {spending.category}: -{spending.amount}
-          </div>
-        ))}
+      <div className="mb-1 text-center font-bold text-xl">
+        Monthly spending by category
       </div>
       <div>
         <SpendingsByCategoryChart data={spendings} />

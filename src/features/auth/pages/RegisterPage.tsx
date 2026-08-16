@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
 import { useState } from "react";
 import SuccessCard from "../components/SuccessCard";
+import Button from "@/components/Button";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -41,57 +42,67 @@ const RegisterPage = () => {
     return <SuccessCard email={registeredEmail} />;
   }
 
+  const INPUT_STYLES =
+    "w-full px-3 py-2 bg-white border border-neutral-300 rounded";
+  const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
+
   return (
-    <>
+    <div className="pt-40">
       <form
-        className="mx-auto flex flex-col max-w-md outline rounded-xl gap-3 p-3"
+        className="mx-auto flex flex-col max-w-md gap-5 p-3 bg-white border border-neutral-300 rounded"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
+        <div className="relative">
           Already have an account?{" "}
           <button
             type="button"
-            className="cursor-pointer"
+            className="cursor-pointer text-neutral-900 hover:underline"
             onClick={() => navigate("/login")}
           >
-            Login
+            Login here 👈
           </button>
         </div>
-        {errors.email && (
-          <p className="text-red-500 text-sm">{errors.email.message}</p>
-        )}
-        <input
-          className="outline p-2"
-          type="email"
-          {...register("email")}
-          placeholder="Email"
-        />
-        {errors.password && (
-          <p className="text-red-500 text-sm">{errors.password.message}</p>
-        )}
-        <input
-          className="outline p-2"
-          type="password"
-          {...register("password")}
-          placeholder="Password"
-        />
-        {errors.confirmPassword && (
-          <p className="text-red-500 text-sm">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-        <input
-          disabled={registerMutation.isPending}
-          className="outline p-2"
-          type="password"
-          {...register("confirmPassword")}
-          placeholder="Confirm Password"
-        />
-        <button className="cursor-pointer" type="submit">
+        <div className="relative">
+          {errors.email && (
+            <p className={INPUT_ERROR_LABEL}>{errors.email.message}</p>
+          )}
+          <input
+            className={INPUT_STYLES}
+            type="email"
+            {...register("email")}
+            placeholder="Email"
+          />
+        </div>
+        <div className="relative">
+          {errors.password && (
+            <p className={INPUT_ERROR_LABEL}>{errors.password.message}</p>
+          )}
+          <input
+            className={INPUT_STYLES}
+            type="password"
+            {...register("password")}
+            placeholder="Password"
+          />
+        </div>
+        <div>
+          {errors.confirmPassword && (
+            <p className={INPUT_ERROR_LABEL}>
+              {errors.confirmPassword.message}
+            </p>
+          )}
+          <input
+            disabled={registerMutation.isPending}
+            className={INPUT_STYLES}
+            type="password"
+            {...register("confirmPassword")}
+            placeholder="Confirm Password"
+          />
+        </div>
+        <Button type="submit">
           {registerMutation.isPending ? "Registering..." : "Register"}
-        </button>
+        </Button>
       </form>
-    </>
+    </div>
   );
 };
 export default RegisterPage;

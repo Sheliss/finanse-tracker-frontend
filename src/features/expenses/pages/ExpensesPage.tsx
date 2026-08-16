@@ -5,6 +5,7 @@ import ExpenseCard from "../components/ExpenseCard";
 import type { ExpenseFormData } from "../schemas/expense.schema";
 import { useCreateExpense } from "../hooks/useCreateExpense";
 import ExpenseForm from "../components/ExpenseForm";
+import Button from "@/components/Button";
 
 const ExpensesPage = () => {
   const { data: expenses, isLoading, error } = useExpenses();
@@ -33,14 +34,13 @@ const ExpensesPage = () => {
   };
 
   return (
-    <div className="p-5 w-full">
-      <button
-        className="cursor-pointer p-1 outline-1"
-        onClick={() => setIsAddModalOpen(true)}
-      >
-        Add Expense
-      </button>
-      <div className="flex flex-col gap-2 items-center">
+    <div className="w-full">
+      <div className="w-300 mx-auto mt-2 mb-4 flex justify-between items-center">
+        <div className="text-xl font-bold">All Expenses</div>
+        <Button onClick={() => setIsAddModalOpen(true)}>Add Expense ✚</Button>
+      </div>
+
+      <div className="flex flex-col items-center border border-neutral-300 rounded w-300 mx-auto">
         {expenses?.map((expense) => (
           <ExpenseCard key={expense.id} expense={expense} />
         ))}

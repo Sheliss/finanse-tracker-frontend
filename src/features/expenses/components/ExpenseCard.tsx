@@ -5,6 +5,8 @@ import type { ExpenseFormData } from "../schemas/expense.schema";
 import type { Expense } from "../types";
 import Modal from "@/components/Modal";
 import ExpenseForm from "./ExpenseForm";
+import { EXPENSE_COLORS, EXPENSE_EMOJIS } from "@/constants/expenseConstants";
+import { formatCurrencyValue } from "@/utils/formatCurrencyValue";
 
 type OwnProps = {
   expense: Expense;
@@ -43,25 +45,56 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
     }
   };
 
+  const formattedDate = (date: string) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
   return (
     <>
-      <div className="flex items-center w-200 justify-between" key={expense.id}>
-        <div>
-          {expense.title} - {expense.amount}
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => setIsUpdateModalOpen(true)}
-            className="p-1 outline-1 cursor-pointer w-15"
+      <div
+        className="grid grid-cols-12 w-full bg-white px-3 py-2 border-b last:border-0 border-neutral-300 "
+        key={expense.id}
+      >
+        <div className="col-span-2 self-center">
+          <div
+            style={{
+              backgroundColor: EXPENSE_COLORS[expense.category],
+            }}
+            className="px-2 py-1 leading-none text-white rounded-4xl w-fit"
           >
-            Edit
+            {EXPENSE_EMOJIS[expense.category]} {expense.category}
+          </div>
+        </div>
+        <div className="col-span-3 overflow-hidden text-ellipsis whitespace-nowrap pr-2">
+          {expense.title}
+        </div>
+        <div className="col-span-4 overflow-hidden text-ellipsis whitespace-nowrap pr-2">
+          {expense.note}
+        </div>
+        <div className="col-span-1">{formattedDate(expense.created_at)}</div>
+        <div
+          className={`col-span-1 text-right ${expense.type === "Expense" ? "text-red-600" : "text-green-600"}`}
+        >
+          {expense.type === "Expense" && "-"}
+          {formatCurrencyValue(expense.amount)}
+        </div>
+        <div className="flex justify-end gap-3 col-span-1">
+          <button
+            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform"
+            onClick={() => setIsUpdateModalOpen(true)}
+          >
+            ✏️
           </button>
           <button
+            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform"
             onClick={handleDelete}
             disabled={deleteExpense.isPending}
-            className="p-1 outline-1 cursor-pointer w-15"
           >
-            Delete
+            🗑️
           </button>
         </div>
       </div>

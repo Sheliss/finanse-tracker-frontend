@@ -5,15 +5,32 @@ type OwnProps = {
 };
 
 const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   return (
-    <div>
-      <div className="mb-1 text-center">RecentExpensesCard</div>
+    <div className="h-80">
+      <div className="mb-1 text-center font-bold text-xl">Recent expenses</div>
       <div>
         {recentExpenses.map((expense) => (
-          <div className="flex w-full justify-between" key={expense.id}>
-            <div>{expense.title}</div>
+          <div
+            className="flex w-full justify-between pb-2 mb-2 border-b border-neutral-300 last:border-b-0"
+            key={expense.id}
+          >
+            <div>
+              <div className="font-bold pb-1">{expense.title}</div>
+              <div className="text-sm flex">
+                <div>{expense.category}</div>
+                <div className="px-1">•</div>
+                <div>{formatDate(expense.created_at)}</div>
+              </div>
+            </div>
             <div
-              className={`w-15 flex ${expense.type === "Expense" ? "text-red-600" : "text-green-600"}`}
+              className={`w-15 flex justify-end ${expense.type === "Expense" ? "text-red-500" : "text-green-600"}`}
             >
               <div className="w-3 text-center">
                 {expense.type === "Expense" ? "-" : "+"}

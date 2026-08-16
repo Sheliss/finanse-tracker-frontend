@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "../schemas/auth.schema";
 import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
+import Button from "@/components/Button";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -30,47 +31,51 @@ const LoginPage = () => {
     }
   };
 
+  const INPUT_STYLES =
+    "w-full px-3 py-2 bg-white border border-neutral-300 rounded";
+  const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
+
   return (
-    <div className="pt-24">
+    <div className="pt-40">
       <form
-        className="mx-auto flex flex-col max-w-md outline rounded-xl gap-3 p-3"
+        className="mx-auto flex flex-col max-w-md gap-5 p-3 bg-white border border-neutral-300 rounded"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div>
           Don't have an account?{" "}
           <button
             type="button"
-            className="cursor-pointer"
+            className="cursor-pointer text-neutral-900 hover:underline"
             onClick={() => navigate("/register")}
           >
-            Register
+            Register here 👈
           </button>
         </div>
-        {errors.email && (
-          <p className="text-red-500 text-sm">{errors.email.message}</p>
-        )}
-        <input
-          className="outline p-2"
-          type="email"
-          {...register("email")}
-          placeholder="Email"
-        />
-        {errors.password && (
-          <p className="text-red-500 text-sm">{errors.password.message}</p>
-        )}
-        <input
-          className="outline p-2"
-          type="password"
-          {...register("password")}
-          placeholder="Password"
-        />
-        <button
-          disabled={loginMutation.isPending}
-          className="cursor-pointer"
-          type="submit"
-        >
+        <div className="relative">
+          {errors.email && (
+            <p className={INPUT_ERROR_LABEL}>{errors.email.message}</p>
+          )}
+          <input
+            className={INPUT_STYLES}
+            type="email"
+            {...register("email")}
+            placeholder="Email"
+          />
+        </div>
+        <div className="relative">
+          {errors.password && (
+            <p className={INPUT_ERROR_LABEL}>{errors.password.message}</p>
+          )}
+          <input
+            className={INPUT_STYLES}
+            type="password"
+            {...register("password")}
+            placeholder="Password"
+          />
+        </div>
+        <Button disabled={loginMutation.isPending} type="submit">
           {loginMutation.isPending ? "Logging in..." : "Login"}
-        </button>
+        </Button>
       </form>
     </div>
   );
