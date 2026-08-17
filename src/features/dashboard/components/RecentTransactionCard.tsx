@@ -1,4 +1,6 @@
 import type { Expense } from "@/features/expenses/types";
+import { useCurrencySymbolStore } from "@/store/ui-store";
+import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 type OwnProps = {
   recentExpenses: Expense[];
@@ -11,6 +13,10 @@ const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
       day: "numeric",
     });
   };
+
+  const { currency } = useCurrencySymbolStore();
+
+  const currencySymbol = getCurrencySymbol(currency);
 
   return (
     <div className="h-80">
@@ -35,7 +41,7 @@ const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
               <div className="w-3 text-center">
                 {expense.type === "Expense" ? "-" : "+"}
               </div>
-              <div>{expense.amount}</div>
+              <div>{currencySymbol + expense.amount}</div>
             </div>
           </div>
         ))}

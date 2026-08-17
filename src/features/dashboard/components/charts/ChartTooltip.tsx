@@ -1,9 +1,15 @@
+import { useCurrencySymbolStore } from "@/store/ui-store";
+import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 import type { TooltipContentProps } from "recharts";
 
 const ChartTooltip: React.FC<Partial<TooltipContentProps>> = ({
   active,
   payload,
 }) => {
+  const { currency } = useCurrencySymbolStore();
+
+  const currencySymbol = getCurrencySymbol(currency);
+
   if (active && payload && payload.length) {
     const firstItem = payload[0];
     const spendingAmount = firstItem.value ?? firstItem.payload?.value;
@@ -15,7 +21,7 @@ const ChartTooltip: React.FC<Partial<TooltipContentProps>> = ({
       <div
         style={{ backgroundColor: textColor }}
         className={`border-2 rounded text-white font-medium shadow-[0_2px_5px_rgba(0,0,0,0.15)] py-2 px-2`}
-      >{`${category ? category : ""} $${spendingAmount}`}</div>
+      >{`${category ? category : ""} ${currencySymbol + spendingAmount}`}</div>
     );
   } else {
     return null;

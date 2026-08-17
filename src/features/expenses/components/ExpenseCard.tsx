@@ -7,6 +7,8 @@ import Modal from "@/components/Modal";
 import ExpenseForm from "./ExpenseForm";
 import { EXPENSE_COLORS, EXPENSE_EMOJIS } from "@/constants/expenseConstants";
 import { formatCurrencyValue } from "@/utils/formatCurrencyValue";
+import { useCurrencySymbolStore } from "@/store/ui-store";
+import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 type OwnProps = {
   expense: Expense;
@@ -20,6 +22,10 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
   const onModalClose = () => {
     setIsUpdateModalOpen(false);
   };
+
+  const { currency } = useCurrencySymbolStore();
+
+  const currencySymbol = getCurrencySymbol(currency);
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
@@ -80,7 +86,7 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
           className={`col-span-1 text-right ${expense.type === "Expense" ? "text-red-600" : "text-green-600"}`}
         >
           {expense.type === "Expense" && "-"}
-          {formatCurrencyValue(expense.amount)}
+          {currencySymbol + expense.amount}
         </div>
         <div className="flex justify-end gap-3 col-span-1">
           <button

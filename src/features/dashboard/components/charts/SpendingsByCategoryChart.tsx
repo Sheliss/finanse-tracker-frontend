@@ -10,12 +10,18 @@ import {
 import type { SpendingByCategory } from "../../types";
 import { EXPENSE_COLORS } from "../../../../constants/expenseConstants";
 import ChartTooltip from "./ChartTooltip";
+import { useCurrencySymbolStore } from "@/store/ui-store";
+import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 type OwnProps = {
   data: SpendingByCategory[];
 };
 
 const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
+  const { currency } = useCurrencySymbolStore();
+
+  const currencySymbol = getCurrencySymbol(currency);
+
   if (!data.length) {
     return <p>No expenses this month</p>;
   }
@@ -31,7 +37,7 @@ const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
             activeShape={(props) => (
               <Sector {...props} outerRadius={(props.outerRadius ?? 0) + 8} />
             )}
-            label={({ value }) => `$${value}`}
+            label={({ value }) => `${currencySymbol + value}`}
           >
             {data.map((entry, index) => (
               // TODO: Replace Cell with the shape prop when upgrading to Recharts 4.

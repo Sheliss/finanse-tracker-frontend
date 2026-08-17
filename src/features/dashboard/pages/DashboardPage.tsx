@@ -5,6 +5,8 @@ import RecentTransactionCard from "../components/RecentTransactionCard";
 import SpendingsByCategoryCard from "../components/SpendingsByCategoryCard";
 import StatCard from "../components/StatCard";
 import { useDashboardData } from "../hooks/useDashboardData";
+import { useCurrencySymbolStore } from "@/store/ui-store";
+import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 const DashboardPage = () => {
   const {
@@ -17,6 +19,10 @@ const DashboardPage = () => {
     isLoading,
     error,
   } = useDashboardData();
+
+  const { currency } = useCurrencySymbolStore();
+
+  const currencySymbol = getCurrencySymbol(currency);
 
   const currentMonth = new Date().toLocaleString("en-US", {
     month: "short",
@@ -36,7 +42,7 @@ const DashboardPage = () => {
         <DashboardCard className="col-span-3">
           <StatCard
             title="Balance"
-            value={formatCurrencyValue(totalBalance)}
+            value={formatCurrencyValue(totalBalance, currencySymbol)}
             big
           />
         </DashboardCard>
@@ -44,14 +50,17 @@ const DashboardPage = () => {
           <StatCard
             title="Income"
             subtitle={"(" + currentMonth + ")"}
-            value={formatCurrencyValue(currentMonthIncomeTotal)}
+            value={formatCurrencyValue(currentMonthIncomeTotal, currencySymbol)}
           />
         </DashboardCard>
         <DashboardCard className="col-span-3">
           <StatCard
             title={"Expenses"}
             subtitle={"(" + currentMonth + ")"}
-            value={"-" + formatCurrencyValue(currentMonthExpensesTotal)}
+            value={
+              "-" +
+              formatCurrencyValue(currentMonthExpensesTotal, currencySymbol)
+            }
           />
         </DashboardCard>
         <DashboardCard className="col-span-3">
@@ -60,6 +69,7 @@ const DashboardPage = () => {
             subtitle={"(" + currentMonth + ")"}
             value={formatCurrencyValue(
               currentMonthIncomeTotal - currentMonthExpensesTotal,
+              currencySymbol,
             )}
           />
         </DashboardCard>

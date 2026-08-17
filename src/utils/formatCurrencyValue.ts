@@ -1,7 +1,7 @@
-export const formatCurrencyValue = (value: number) => {
+export const formatCurrencyValue = (value: number, currency: string) => {
   if (value < 0) {
-    return "-$" + Math.abs(value);
+    return "-" + currency + Math.abs(value);
   } else {
-    return "$" + value;
+    return currency + value;
   }
 };
