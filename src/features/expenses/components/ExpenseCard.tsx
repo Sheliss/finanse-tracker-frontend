@@ -62,7 +62,7 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
   return (
     <>
       <div
-        className="grid grid-cols-12 w-full bg-white px-3 py-2 border-b last:border-0 border-neutral-300 "
+        className="grid grid-cols-12 w-full bg-white px-3 py-2 border-b last:border-0 border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
         key={expense.id}
       >
         <div className="col-span-2 self-center">

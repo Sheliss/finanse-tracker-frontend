@@ -15,6 +15,8 @@
   --text-9xl--line-height: 1;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   font-family: "Roboto", sans-serif;
 }

@@ -8,7 +8,9 @@ type OwnProps = {
 const MonthlySpendingCard: React.FC<OwnProps> = ({ chartData }) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-4 font-bold text-lg">Spending history</div>
+      <div className="mb-4 font-bold text-lg dark:text-white">
+        Spending history
+      </div>
       <div className="w-full">
         <SpendingByMonthChart chartData={chartData} />
       </div>

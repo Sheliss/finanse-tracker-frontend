@@ -20,14 +20,16 @@ const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
 
   return (
     <div className="h-80">
-      <div className="mb-1 text-center font-bold text-xl">Recent expenses</div>
+      <div className="mb-1 text-center font-bold text-xl dark:text-white">
+        Recent expenses
+      </div>
       <div>
         {recentExpenses.map((expense) => (
           <div
-            className="flex w-full justify-between pb-2 mb-2 border-b border-neutral-300 last:border-b-0"
+            className="flex w-full justify-between pb-2 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-neutral-700"
             key={expense.id}
           >
-            <div>
+            <div className="dark:text-white">
               <div className="font-bold pb-1">{expense.title}</div>
               <div className="text-sm flex">
                 <div>{expense.category}</div>

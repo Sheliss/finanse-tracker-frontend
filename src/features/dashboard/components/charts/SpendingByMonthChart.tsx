@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import type { SpendingsByMonth } from "../../types";
 import ChartTooltip from "./ChartTooltip";
-import { useCurrencySymbolStore } from "@/store/ui-store";
+import { useCurrencySymbolStore, useUITheme } from "@/store/ui-store";
 import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 type OwnProps = {
@@ -18,6 +18,8 @@ type OwnProps = {
 
 const SpendingByMonthChart: React.FC<OwnProps> = ({ chartData }) => {
   const { currency } = useCurrencySymbolStore();
+
+  const theme = useUITheme((state) => state.theme);
 
   const currencySymbol = getCurrencySymbol(currency);
 
@@ -37,7 +39,7 @@ const SpendingByMonthChart: React.FC<OwnProps> = ({ chartData }) => {
             formatter={(value) => `${currencySymbol + value}`}
             radius={[4, 4, 0, 0]}
             dataKey="amount"
-            fill="#171717"
+            fill={theme === "dark" ? "#e5e5e5" : "#171717"}
           />
         </BarChart>
       </ResponsiveContainer>

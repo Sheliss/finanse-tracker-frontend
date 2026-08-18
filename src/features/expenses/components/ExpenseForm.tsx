@@ -43,7 +43,7 @@ const ExpenseForm: React.FC<OwnProps> = ({
   });
 
   const INPUT_STYLES =
-    "w-full px-3 py-2 bg-white border border-neutral-300 rounded";
+    "w-full px-3 py-2 bg-white border border-neutral-300 rounded dark:border-neutral-700 dark:bg-neutral-600 dark:text-white";
   const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
 
   return (

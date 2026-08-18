@@ -6,8 +6,8 @@ const Sidebar = () => {
   const currentRoute = useLocation();
 
   return (
-    <div className=" bg-neutral-900 flex flex-col col-span-2 h-screen">
-      <div className="h-16 pl-12 mb-4 font-bold text-xl text-white flex items-center border-b border-gray-800">
+    <div className=" bg-neutral-900 dark:bg-neutral-950 flex flex-col col-span-2 h-screen">
+      <div className="h-16 pl-12 mb-4 font-bold text-xl text-white flex items-center border-b border-neutral-800">
         Expense Tracker
       </div>
       <SidebarButton

@@ -36,11 +36,11 @@ const ExpensesPage = () => {
   return (
     <div className="w-full">
       <div className="w-300 mx-auto mt-2 mb-4 flex justify-between items-center">
-        <div className="text-xl font-bold">All Expenses</div>
+        <div className="text-xl font-bold dark:text-white">All Expenses</div>
         <Button onClick={() => setIsAddModalOpen(true)}>Add Expense ✚</Button>
       </div>
 
-      <div className="flex flex-col items-center border border-neutral-300 rounded w-300 mx-auto">
+      <div className="flex flex-col items-center border border-neutral-300 rounded w-300 mx-auto dark:border-neutral-700">
         {expenses?.map((expense) => (
           <ExpenseCard key={expense.id} expense={expense} />
         ))}
