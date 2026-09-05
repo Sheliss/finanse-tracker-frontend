@@ -1,44 +1,67 @@
-import { supabase } from "@/lib/supabase";
 import type { LoginFormData, RegisterFormData } from "../schemas/auth.schema";
 
-export async function login(credentials: LoginFormData) {
-  const { data, error } = await supabase.auth.signInWithPassword(credentials);
+const API_URL = "http://localhost:5000/api/auth";
 
-  if (error) {
-    throw new Error(error.message);
+export async function login(credentials: LoginFormData) {
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Login failed");
   }
+
+  localStorage.setItem("token", data.token);
 
   return data;
 }
 
 export async function register(credentials: RegisterFormData) {
-  const { data, error } = await supabase.auth.signUp(credentials);
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
 
-  if (error) {
-    throw new Error(error.message);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Registration failed");
+  }
+
+  if (data.token) {
+    localStorage.setItem("token", data.token);
   }
 
   return data;
 }
 
 export async function logout() {
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  localStorage.removeItem("token");
   return true;
 }
 
 export async function getCurrentUser() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  const token = localStorage.getItem("token");
+  if (!token) return null;
 
-  if (error) {
-    throw new Error(error.message);
+  const response = await fetch(`${API_URL}/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    localStorage.removeItem("token");
+    throw new Error(data.error || "Failed to fetch current user");
   }
 
-  return user;
+  return data.user;
 }
