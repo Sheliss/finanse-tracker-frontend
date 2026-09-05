@@ -6,7 +6,6 @@ import type { Expense } from "../types";
 import Modal from "@/components/Modal";
 import ExpenseForm from "./ExpenseForm";
 import { EXPENSE_COLORS, EXPENSE_EMOJIS } from "@/constants/expenseConstants";
-import { formatCurrencyValue } from "@/utils/formatCurrencyValue";
 import { useCurrencySymbolStore } from "@/store/ui-store";
 import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
@@ -81,7 +80,7 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
         <div className="col-span-4 overflow-hidden text-ellipsis whitespace-nowrap pr-2">
           {expense.note}
         </div>
-        <div className="col-span-1">{formattedDate(expense.created_at)}</div>
+        <div className="col-span-1">{formattedDate(expense.createdAt)}</div>
         <div
           className={`col-span-1 text-right ${expense.type === "Expense" ? "text-red-600" : "text-green-600"}`}
         >

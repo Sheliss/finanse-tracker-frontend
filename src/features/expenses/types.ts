@@ -9,6 +9,6 @@ export type Expense = {
   category: Partial<ExpenseCategory>;
   date: string;
   note: string | null;
-  created_at: string;
+  createdAt: string;
   type: Partial<ExpenseType>;
 };

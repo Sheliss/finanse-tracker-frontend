@@ -34,7 +34,7 @@ const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
               <div className="text-sm flex">
                 <div>{expense.category}</div>
                 <div className="px-1">•</div>
-                <div>{formatDate(expense.created_at)}</div>
+                <div>{formatDate(expense.createdAt)}</div>
               </div>
             </div>
             <div

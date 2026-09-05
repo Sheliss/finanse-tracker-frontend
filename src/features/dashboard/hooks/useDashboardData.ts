@@ -78,7 +78,7 @@ export function useDashboardData() {
   const recentExpenses = [...expenses]
     .sort(
       (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
     .slice(0, 5);
 
