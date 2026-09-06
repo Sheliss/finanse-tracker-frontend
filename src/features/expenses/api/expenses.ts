@@ -11,8 +11,21 @@ function getAuthHeader() {
   };
 }
 
-export async function getExpenses(): Promise<Expense[]> {
-  const response = await fetch(API_URL, {
+export interface PaginatedExpensesResponse {
+  data: Expense[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export async function getExpenses(
+  page: number,
+  limit: number,
+): Promise<PaginatedExpensesResponse> {
+  const response = await fetch(`${API_URL}?page=${page}&limit=${limit}`, {
     method: "GET",
     headers: getAuthHeader(),
   });
@@ -23,7 +36,7 @@ export async function getExpenses(): Promise<Expense[]> {
     throw new Error(data.error || "Failed to fetch expenses");
   }
 
-  return data as Expense[];
+  return data;
 }
 
 export async function createExpense(expense: ExpenseFormData) {

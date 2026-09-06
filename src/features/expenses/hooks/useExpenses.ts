@@ -1,9 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../api/expenses";
 
-export function useExpenses() {
+export function useExpenses(page: number, limit: number) {
   return useQuery({
-    queryKey: ["expenses"],
-    queryFn: getExpenses,
+    queryKey: ["expenses", page, limit],
+    queryFn: () => getExpenses(page, limit),
+    placeholderData: keepPreviousData,
   });
 }

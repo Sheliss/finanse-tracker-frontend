@@ -8,11 +8,13 @@ import ExpenseForm from "../components/ExpenseForm";
 import Button from "@/components/Button";
 
 const ExpensesPage = () => {
-  const { data: expenses, isLoading, error } = useExpenses();
+  const [page, setPage] = useState<number>(1);
+  const limit = 1;
+  const { data, isPending, isFetching, error } = useExpenses(page, limit);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const addExpense = useCreateExpense();
 
-  if (isLoading) {
+  if (isPending) {
     return <div>{`Loading ∘ ∘ ∘ ( °ヮ° )`}</div>;
   }
 
@@ -33,6 +35,9 @@ const ExpensesPage = () => {
     }
   };
 
+  const expenses = data?.data ?? [];
+  const totalPages = data?.pagination.totalPages ?? 1;
+
   return (
     <div className="w-full">
       <div className="w-300 mx-auto mt-2 mb-4 flex justify-between items-center">
@@ -45,6 +50,28 @@ const ExpensesPage = () => {
           <ExpenseCard key={expense.id} expense={expense} />
         ))}
       </div>
+      {totalPages > 1 && (
+        <div className="flex items-center gap-1 mt-4 w-fit mx-auto">
+          <div className="w-24">
+            <Button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1 || isFetching}
+              wFull
+            >
+              Previous
+            </Button>
+          </div>
+          <div className="w-24">
+            <Button
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={page >= totalPages || isFetching}
+              wFull
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
       {isAddModalOpen && (
         <Modal onClose={onModalClose}>
           <ExpenseForm
