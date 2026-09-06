@@ -4,21 +4,12 @@ import MonthlySpendingCard from "../components/MonthlySpendingCard";
 import RecentTransactionCard from "../components/RecentTransactionCard";
 import SpendingsByCategoryCard from "../components/SpendingsByCategoryCard";
 import StatCard from "../components/StatCard";
-import { useDashboardData } from "../hooks/useDashboardData";
+import { useDashboardStats } from "../hooks/useDashboardStats";
 import { useCurrencySymbolStore } from "@/store/ui-store";
 import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
 
 const DashboardPage = () => {
-  const {
-    spendingByCategory,
-    currentMonthIncomeTotal,
-    currentMonthExpensesTotal,
-    pastMonthsExpenses,
-    totalBalance,
-    recentExpenses,
-    isLoading,
-    error,
-  } = useDashboardData();
+  const { data, isPending, error } = useDashboardStats();
 
   const { currency } = useCurrencySymbolStore();
 
@@ -28,7 +19,7 @@ const DashboardPage = () => {
     month: "short",
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <div>{`Loading ∘ ∘ ∘ ( °ヮ° )`}</div>;
   }
 
@@ -42,7 +33,7 @@ const DashboardPage = () => {
         <DashboardCard className="col-span-3">
           <StatCard
             title="Balance"
-            value={formatCurrencyValue(totalBalance, currencySymbol)}
+            value={formatCurrencyValue(data.totalBalance, currencySymbol)}
             big
           />
         </DashboardCard>
@@ -50,7 +41,7 @@ const DashboardPage = () => {
           <StatCard
             title="Income"
             subtitle={"(" + currentMonth + ")"}
-            value={formatCurrencyValue(currentMonthIncomeTotal, currencySymbol)}
+            value={formatCurrencyValue(data.currentMonthIncome, currencySymbol)}
           />
         </DashboardCard>
         <DashboardCard className="col-span-3">
@@ -59,7 +50,7 @@ const DashboardPage = () => {
             subtitle={"(" + currentMonth + ")"}
             value={
               "-" +
-              formatCurrencyValue(currentMonthExpensesTotal, currencySymbol)
+              formatCurrencyValue(data.currentMonthExpense, currencySymbol)
             }
           />
         </DashboardCard>
@@ -68,19 +59,19 @@ const DashboardPage = () => {
             title="Net"
             subtitle={"(" + currentMonth + ")"}
             value={formatCurrencyValue(
-              currentMonthIncomeTotal - currentMonthExpensesTotal,
+              data.currentMonthIncome - data.currentMonthExpense,
               currencySymbol,
             )}
           />
         </DashboardCard>
         <DashboardCard className="col-span-4">
-          <RecentTransactionCard recentExpenses={recentExpenses} />
+          <RecentTransactionCard recentExpenses={data.recentExpenses} />
         </DashboardCard>
         <DashboardCard className="col-span-8">
-          <SpendingsByCategoryCard spendings={spendingByCategory} />
+          <SpendingsByCategoryCard spendings={data.spendingByCategory} />
         </DashboardCard>
         <DashboardCard className="col-span-12">
-          <MonthlySpendingCard chartData={pastMonthsExpenses} />
+          <MonthlySpendingCard chartData={data.pastMonthsExpenses} />
         </DashboardCard>
       </div>
     </div>
