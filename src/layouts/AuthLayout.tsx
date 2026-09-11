@@ -4,11 +4,7 @@ import { Outlet } from "react-router-dom";
 export default function AuthLayout() {
   return (
     <GuestRoute>
-      <div className="bg-neutral-100 h-screen">
-        <header className="text-center pt-10 text-3xl font-bold">
-          Expense Tracker
-        </header>
-
+      <div className="m-0 p-0 bg-neutral-100 flex items-center justify-center h-screen">
         <main>
           <Outlet />
         </main>

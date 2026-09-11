@@ -23,7 +23,13 @@ const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
   const currencySymbol = getCurrencySymbol(currency);
 
   if (!data.length) {
-    return <p>No expenses this month</p>;
+    return (
+      <div className="flex flex-col grow justify-center items-center">
+        <div className="text-xl font-bold dark:text-white">
+          No transactions yet!
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -40,7 +46,6 @@ const SpendingsByCategoryChart: React.FC<OwnProps> = ({ data }) => {
             label={({ value }) => `${currencySymbol + value}`}
           >
             {data.map((entry, index) => (
-              // TODO: Replace Cell with the shape prop when upgrading to Recharts 4.
               <Cell
                 key={`sector-${index}`}
                 fill={EXPENSE_COLORS[entry.category] ?? "#94a3b8"}

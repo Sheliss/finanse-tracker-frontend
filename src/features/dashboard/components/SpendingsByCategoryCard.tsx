@@ -7,13 +7,11 @@ type OwnProps = {
 
 const SpendingsByCategoryCard: React.FC<OwnProps> = ({ spendings }) => {
   return (
-    <div>
+    <div className="h-80 flex flex-col">
       <div className="mb-1 text-center font-bold text-xl dark:text-white">
         Monthly spending by category
       </div>
-      <div>
-        <SpendingsByCategoryChart data={spendings} />
-      </div>
+      <SpendingsByCategoryChart data={spendings} />
     </div>
   );
 };

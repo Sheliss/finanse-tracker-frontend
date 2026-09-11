@@ -7,6 +7,7 @@ import StatCard from "../components/StatCard";
 import { useDashboardStats } from "../hooks/useDashboardStats";
 import { useCurrencySymbolStore } from "@/store/ui-store";
 import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
+import Loader from "@/components/Loader";
 
 const DashboardPage = () => {
   const { data, isPending, error } = useDashboardStats();
@@ -20,7 +21,7 @@ const DashboardPage = () => {
   });
 
   if (isPending) {
-    return <div>{`Loading ∘ ∘ ∘ ( °ヮ° )`}</div>;
+    return <Loader isBlack />;
   }
 
   if (error) {
@@ -28,7 +29,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="min-h-full">
+    <div className="min-h-full w-full">
       <div className="grid grid-cols-12 w-full gap-3">
         <DashboardCard className="col-span-3">
           <StatCard

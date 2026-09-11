@@ -15,7 +15,7 @@ export default function MainLayout() {
           <div>
             <Header />
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-neutral-100 dark:bg-neutral-900">
+          <div className="flex flex-1 min-h-0 overflow-y-auto p-4 bg-neutral-100 dark:bg-neutral-900">
             <Outlet />
           </div>
         </div>

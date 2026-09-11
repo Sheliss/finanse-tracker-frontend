@@ -6,16 +6,17 @@ import type { ExpenseFormData } from "../schemas/expense.schema";
 import { useCreateExpense } from "../hooks/useCreateExpense";
 import ExpenseForm from "../components/ExpenseForm";
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 
 const ExpensesPage = () => {
   const [page, setPage] = useState<number>(1);
-  const limit = 1;
+  const limit = 10;
   const { data, isPending, isFetching, error } = useExpenses(page, limit);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const addExpense = useCreateExpense();
 
   if (isPending) {
-    return <div>{`Loading ∘ ∘ ∘ ( °ヮ° )`}</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -41,15 +42,27 @@ const ExpensesPage = () => {
   return (
     <div className="w-full">
       <div className="w-300 mx-auto mt-2 mb-4 flex justify-between items-center">
-        <div className="text-xl font-bold dark:text-white">All Expenses</div>
-        <Button onClick={() => setIsAddModalOpen(true)}>Add Expense ✚</Button>
+        <div className="text-xl font-bold dark:text-white">
+          All transactions
+        </div>
+        <Button onClick={() => setIsAddModalOpen(true)}>
+          Add transaction ✚
+        </Button>
       </div>
 
-      <div className="flex flex-col items-center border border-neutral-300 rounded w-300 mx-auto dark:border-neutral-700">
-        {expenses?.map((expense) => (
-          <ExpenseCard key={expense.id} expense={expense} />
-        ))}
-      </div>
+      {expenses.length > 0 ? (
+        <div className="flex flex-col items-center border border-neutral-300 rounded w-300 mx-auto dark:border-neutral-700">
+          {expenses?.map((expense) => (
+            <ExpenseCard key={expense.id} expense={expense} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <div className="text-xl font-bold dark:text-white">
+            No transactions yet!
+          </div>
+        </div>
+      )}
       {totalPages > 1 && (
         <div className="flex items-center gap-1 mt-4 w-fit mx-auto">
           <div className="w-24">

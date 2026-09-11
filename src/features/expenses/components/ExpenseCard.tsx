@@ -8,6 +8,7 @@ import ExpenseForm from "./ExpenseForm";
 import { EXPENSE_COLORS, EXPENSE_EMOJIS } from "@/constants/expenseConstants";
 import { useCurrencySymbolStore } from "@/store/ui-store";
 import { getCurrencySymbol } from "@/utils/getCurrencySymbol";
+import DeleteConfirm from "./DeleteConfirm";
 
 type OwnProps = {
   expense: Expense;
@@ -17,24 +18,19 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
   const deleteExpense = useDeleteExpense();
   const updateExpense = useUpdateExpense();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
   const onModalClose = () => {
     setIsUpdateModalOpen(false);
+    setIsConfirmModalOpen(false);
   };
 
   const { currency } = useCurrencySymbolStore();
 
   const currencySymbol = getCurrencySymbol(currency);
 
-  const handleDelete = async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this expense?",
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
+  const onDelete = async () => {
+    setIsConfirmModalOpen(false);
     await deleteExpense.mutateAsync(expense.id);
   };
 
@@ -96,7 +92,7 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
           </button>
           <button
             className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform"
-            onClick={handleDelete}
+            onClick={() => setIsConfirmModalOpen(true)}
             disabled={deleteExpense.isPending}
           >
             🗑️
@@ -119,6 +115,11 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
               note: expense.note ?? undefined,
             }}
           />
+        </Modal>
+      )}
+      {isConfirmModalOpen && (
+        <Modal onClose={onModalClose}>
+          <DeleteConfirm onClose={onModalClose} onConfirm={onDelete} />
         </Modal>
       )}
     </>

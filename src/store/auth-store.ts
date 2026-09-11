@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import type { User } from "@supabase/supabase-js";
+
+export type User = {
+  id: string;
+  email: string;
+};
 
 type AuthStore = {
   user: User | null;

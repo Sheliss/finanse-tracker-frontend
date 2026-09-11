@@ -5,6 +5,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import ExpensesPage from "@/features/expenses/pages/ExpensesPage";
+import VerifyEmailPage from "@/features/auth/pages/VerifyEmailPage";
 
 export const router = createBrowserRouter([
   {
@@ -44,5 +45,9 @@ export const router = createBrowserRouter([
         element: <RegisterPage />,
       },
     ],
+  },
+  {
+    path: "/verify-email",
+    element: <VerifyEmailPage />,
   },
 ]);

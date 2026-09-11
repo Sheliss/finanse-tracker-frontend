@@ -19,35 +19,43 @@ const RecentTransactionCard: React.FC<OwnProps> = ({ recentExpenses }) => {
   const currencySymbol = getCurrencySymbol(currency);
 
   return (
-    <div className="h-80">
+    <div className="h-80 flex flex-col">
       <div className="mb-1 text-center font-bold text-xl dark:text-white">
-        Recent expenses
+        Recent transactions
       </div>
-      <div>
-        {recentExpenses.map((expense) => (
-          <div
-            className="flex w-full justify-between pb-2 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-neutral-700"
-            key={expense.id}
-          >
-            <div className="dark:text-white">
-              <div className="font-bold pb-1">{expense.title}</div>
-              <div className="text-sm flex">
-                <div>{expense.category}</div>
-                <div className="px-1">•</div>
-                <div>{formatDate(expense.createdAt)}</div>
-              </div>
-            </div>
+      {recentExpenses.length > 0 ? (
+        <div>
+          {recentExpenses.map((expense) => (
             <div
-              className={`w-15 flex justify-end ${expense.type === "Expense" ? "text-red-500" : "text-green-600"}`}
+              className="flex w-full justify-between pb-2 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-neutral-700"
+              key={expense.id}
             >
-              <div className="w-3 text-center">
-                {expense.type === "Expense" ? "-" : "+"}
+              <div className="dark:text-white">
+                <div className="font-bold pb-1">{expense.title}</div>
+                <div className="text-sm flex">
+                  <div>{expense.category}</div>
+                  <div className="px-1">•</div>
+                  <div>{formatDate(expense.createdAt)}</div>
+                </div>
               </div>
-              <div>{currencySymbol + expense.amount}</div>
+              <div
+                className={`w-15 flex justify-end ${expense.type === "Expense" ? "text-red-500" : "text-green-600"}`}
+              >
+                <div className="w-3 text-center">
+                  {expense.type === "Expense" ? "-" : "+"}
+                </div>
+                <div>{currencySymbol + expense.amount}</div>
+              </div>
             </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col grow justify-center items-center">
+          <div className="text-xl font-bold dark:text-white">
+            No recent transactions yet!
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
