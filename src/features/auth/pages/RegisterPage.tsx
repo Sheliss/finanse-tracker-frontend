@@ -6,11 +6,13 @@ import { useRegister } from "../hooks/useRegister";
 import { useState } from "react";
 import SuccessCard from "../components/SuccessCard";
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const registerMutation = useRegister();
   const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
+  const [serverError, setServerError] = useState("");
 
   const {
     register,
@@ -18,6 +20,7 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    mode: "onBlur",
     defaultValues: {
       email: "",
       password: "",
@@ -26,6 +29,8 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
+    setServerError("");
+
     try {
       const result = await registerMutation.mutateAsync(data);
 
@@ -33,7 +38,8 @@ const RegisterPage = () => {
         setRegisteredEmail(data.email);
         return;
       }
-    } catch (error) {
+    } catch (error: any) {
+      setServerError(error.message);
       console.error("Registration failed:", error);
     }
   };
@@ -42,17 +48,28 @@ const RegisterPage = () => {
     return <SuccessCard email={registeredEmail} />;
   }
 
+  const kaomoji = () => {
+    return registerMutation.isPending ? (
+      <Loader isShort isBlack />
+    ) : Object.keys(errors).length > 0 || serverError ? (
+      `(°ロ°) !`
+    ) : (
+      `(*￣▽￣)b`
+    );
+  };
+
   const INPUT_STYLES =
-    "w-full px-3 py-2 bg-white border border-neutral-300 rounded";
-  const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
+    "w-full px-3 py-1.5 bg-white border border-neutral-300 rounded";
+  const INPUT_ERROR_LABEL = "text-red-500 text-sm pb-1 text-left";
 
   return (
-    <div className="pt-40">
-      <form
-        className="mx-auto flex flex-col max-w-md gap-5 p-3 bg-white border border-neutral-300 rounded"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="relative">
+    <div className="w-full max-w-md rounded-lg bg-white p-10 text-center shadow flex flex-col gap-2">
+      <div className="text-2xl font-bold mb-6 tracking-tight">
+        Finance Tracker Register
+      </div>
+      <div className="text-2xl mb-5 font-bold">{kaomoji()}</div>
+      <form className="flex flex-col gap-1" onSubmit={handleSubmit(onSubmit)}>
+        <div className=" text-neutral-600">
           Already have an account?{" "}
           <button
             type="button"
@@ -62,21 +79,34 @@ const RegisterPage = () => {
             Login here 👈
           </button>
         </div>
-        <div className="relative">
-          {errors.email && (
-            <p className={INPUT_ERROR_LABEL}>{errors.email.message}</p>
-          )}
+        <div>
+          <p
+            className={`
+                  ${INPUT_ERROR_LABEL}
+                  transition-opacity duration-200
+                  ${errors.email || serverError ? "opacity-100" : "opacity-0 pointer-events-none"}
+                `}
+          >
+            {errors.email?.message || serverError || "\u00A0"}
+          </p>
           <input
             className={INPUT_STYLES}
             type="email"
             {...register("email")}
             placeholder="Email"
+            onFocus={() => setServerError("")}
           />
         </div>
         <div className="relative">
-          {errors.password && (
-            <p className={INPUT_ERROR_LABEL}>{errors.password.message}</p>
-          )}
+          <p
+            className={`
+                  ${INPUT_ERROR_LABEL}
+                  transition-opacity duration-200
+                  ${errors.password ? "opacity-100" : "opacity-0 pointer-events-none"}
+                `}
+          >
+            {errors.password?.message || "\u00A0"}
+          </p>
           <input
             className={INPUT_STYLES}
             type="password"
@@ -85,11 +115,15 @@ const RegisterPage = () => {
           />
         </div>
         <div>
-          {errors.confirmPassword && (
-            <p className={INPUT_ERROR_LABEL}>
-              {errors.confirmPassword.message}
-            </p>
-          )}
+          <p
+            className={`
+                  ${INPUT_ERROR_LABEL}
+                  transition-opacity duration-200
+                  ${errors.confirmPassword ? "opacity-100" : "opacity-0 pointer-events-none"}
+                `}
+          >
+            {errors.confirmPassword?.message || "\u00A0"}
+          </p>
           <input
             disabled={registerMutation.isPending}
             className={INPUT_STYLES}

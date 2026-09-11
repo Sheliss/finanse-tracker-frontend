@@ -1,6 +1,7 @@
 import type { LoginFormData, RegisterFormData } from "../schemas/auth.schema";
+import { useAuthStore } from "@/store/auth-store";
 
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 export async function login(credentials: LoginFormData) {
   const response = await fetch(`${API_URL}/login`, {
@@ -16,6 +17,8 @@ export async function login(credentials: LoginFormData) {
   }
 
   localStorage.setItem("token", data.token);
+
+  useAuthStore.getState().setUser(data.user);
 
   return data;
 }
@@ -35,6 +38,7 @@ export async function register(credentials: RegisterFormData) {
 
   if (data.token) {
     localStorage.setItem("token", data.token);
+    useAuthStore.getState().setUser(data.user);
   }
 
   return data;
@@ -42,12 +46,18 @@ export async function register(credentials: RegisterFormData) {
 
 export async function logout() {
   localStorage.removeItem("token");
+
+  useAuthStore.getState().setUser(null);
+
   return true;
 }
 
 export async function getCurrentUser() {
   const token = localStorage.getItem("token");
-  if (!token) return null;
+  if (!token) {
+    useAuthStore.getState().setUser(null);
+    return null;
+  }
 
   const response = await fetch(`${API_URL}/me`, {
     method: "GET",
@@ -60,8 +70,11 @@ export async function getCurrentUser() {
 
   if (!response.ok) {
     localStorage.removeItem("token");
+    useAuthStore.getState().setUser(null);
     throw new Error(data.error || "Failed to fetch current user");
   }
+
+  useAuthStore.getState().setUser(data.user);
 
   return data.user;
 }

@@ -1,23 +1,21 @@
-import { useNavigate } from "react-router-dom";
-
 interface SuccessCardProps {
   email: string;
 }
 
 const SuccessCard: React.FC<SuccessCardProps> = ({ email }) => {
-  const navigate = useNavigate();
-
   return (
-    <>
-      <div className="mx-auto flex flex-col max-w-md outline rounded-xl gap-3 p-3">
-        We've sent a confirmation email to {email}. Please open the email and
-        click the verification link to activate your account. Once your email is
-        confirmed, you can sign in.
-        <button className="cursor-pointer" onClick={() => navigate("/login")}>
-          Go to Login
-        </button>
-      </div>
-    </>
+    <div className="w-full max-w-md rounded-lg bg-white p-10 text-center shadow flex flex-col gap-2">
+      <div className="text-2xl mb-5 font-bold">ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</div>
+      <h1 className="text-2xl mb-2.5 font-bold">You’re almost in!</h1>
+      <p className="text-neutral-600 text-base leading-normal mb-7">
+        We just sent a confirmation email to <b>{email}.</b> Tap the link inside
+        so we know it’s really you, and we’ll get you started right away.
+      </p>
+
+      <p className="text-neutral-600 text-base leading-normal mb-7">
+        Didn’t receive the email? Check your spam folder!
+      </p>
+    </div>
   );
 };
 export default SuccessCard;

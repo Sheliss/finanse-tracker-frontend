@@ -5,6 +5,7 @@ import { loginSchema, type LoginFormData } from "../schemas/auth.schema";
 import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -36,12 +37,15 @@ const LoginPage = () => {
   const INPUT_ERROR_LABEL = "absolute -top-4 text-red-500 text-sm";
 
   return (
-    <div className="pt-40">
-      <form
-        className="mx-auto flex flex-col max-w-md gap-5 p-3 bg-white border border-neutral-300 rounded"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div>
+    <div className="w-full max-w-md rounded-lg bg-white p-10 text-center shadow flex flex-col gap-2">
+      <div className="text-2xl font-bold mb-6 tracking-tight">
+        Finance Tracker Login
+      </div>
+      <div className="text-2xl mb-5 font-bold">
+        {loginMutation.isPending ? <Loader isBlack isShort /> : `( ˙▿˙ )`}
+      </div>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <div className="text-neutral-600">
           Don't have an account?{" "}
           <button
             type="button"
