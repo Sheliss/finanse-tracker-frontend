@@ -8,7 +8,11 @@ export function ProtectedRoute({ children }: PropsWithChildren) {
   const isInitialized = useAuthStore((state) => state.isInitialized);
 
   if (!isInitialized) {
-    return <Loader />;
+    return (
+      <div className="flex h-screen flex-1 min-h-0 overflow-y-auto p-4 bg-neutral-100 dark:bg-neutral-900">
+        <Loader />;
+      </div>
+    );
   }
 
   if (!user) {
