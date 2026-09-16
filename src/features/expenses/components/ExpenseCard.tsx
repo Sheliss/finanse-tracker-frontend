@@ -57,41 +57,45 @@ const ExpenseCard: React.FC<OwnProps> = ({ expense }) => {
   return (
     <>
       <div
-        className="grid grid-cols-12 w-full bg-white px-3 py-2 border-b last:border-0 border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+        className="grid grid-cols-12 gap-y-2 md:gap-y-0 w-full bg-white px-3 py-3 md:py-2 border-b last:border-0 border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white items-center"
         key={expense.id}
       >
-        <div className="col-span-2 self-center">
+        <div className="col-span-6 md:col-span-2">
           <div
             style={{
               backgroundColor: EXPENSE_COLORS[expense.category],
             }}
-            className="px-2 py-1 leading-none text-white rounded-4xl w-fit"
+            className="px-2 py-1 leading-none text-white rounded-4xl w-fit text-xs md:text-sm"
           >
             {EXPENSE_EMOJIS[expense.category]} {expense.category}
           </div>
         </div>
-        <div className="col-span-3 overflow-hidden text-ellipsis whitespace-nowrap pr-2">
-          {expense.title}
-        </div>
-        <div className="col-span-4 overflow-hidden text-ellipsis whitespace-nowrap pr-2">
-          {expense.note}
-        </div>
-        <div className="col-span-1">{formattedDate(expense.createdAt)}</div>
         <div
-          className={`col-span-1 text-right ${expense.type === "Expense" ? "text-red-600" : "text-green-600"}`}
+          className={`col-span-6 md:pr-4 md:col-span-1 text-right font-semibold md:font-normal ${
+            expense.type === "Expense" ? "text-red-600" : "text-green-600"
+          }`}
         >
           {expense.type === "Expense" && "-"}
           {currencySymbol + expense.amount}
         </div>
-        <div className="flex justify-end gap-3 col-span-1">
+        <div className="col-span-12 md:col-span-3 font-medium md:font-normal overflow-hidden text-ellipsis whitespace-nowrap pr-2">
+          {expense.title}
+        </div>
+        <div className="hidden md:block md:col-span-4 overflow-hidden text-ellipsis whitespace-nowrap pr-2 text-neutral-400 text-sm">
+          {expense.note}
+        </div>
+        <div className="col-span-6 md:col-span-1 text-xs text-neutral-400 md:text-sm self-center">
+          {formattedDate(expense.createdAt)}
+        </div>
+        <div className="flex justify-end gap-3 col-span-6 md:col-span-1">
           <button
-            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform"
+            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform p-1"
             onClick={() => setIsUpdateModalOpen(true)}
           >
             ✏️
           </button>
           <button
-            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform"
+            className="cursor-pointer hover:scale-120 transform transition-all duration-50 will-change-transform p-1"
             onClick={() => setIsConfirmModalOpen(true)}
             disabled={deleteExpense.isPending}
           >

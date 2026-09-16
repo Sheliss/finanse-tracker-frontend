@@ -7,7 +7,7 @@ type OwnProps = {
 
 const StatCard: React.FC<OwnProps> = ({ title, subtitle, value, big }) => {
   return (
-    <div className={`h-full flex flex-col  justify-center`}>
+    <div className={`h-full flex flex-col justify-center`}>
       <div
         className={`text-neutral-600  ${big ? "text-base" : "text-sm"} mb-1 dark:text-neutral-200`}
       >

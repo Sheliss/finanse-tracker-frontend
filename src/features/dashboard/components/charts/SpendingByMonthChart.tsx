@@ -24,7 +24,7 @@ const SpendingByMonthChart: React.FC<OwnProps> = ({ chartData }) => {
   const currencySymbol = getCurrencySymbol(currency);
 
   return (
-    <>
+    <div className="min-w-150">
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>
           <XAxis reversed dataKey="month" />
@@ -43,7 +43,7 @@ const SpendingByMonthChart: React.FC<OwnProps> = ({ chartData }) => {
           />
         </BarChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 };
 export default SpendingByMonthChart;

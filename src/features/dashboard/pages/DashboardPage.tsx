@@ -31,21 +31,21 @@ const DashboardPage = () => {
   return (
     <div className="min-h-full w-full">
       <div className="grid grid-cols-12 w-full gap-3">
-        <DashboardCard className="col-span-3">
+        <DashboardCard className="col-span-6 md:col-span-3">
           <StatCard
             title="Balance"
             value={formatCurrencyValue(data.totalBalance, currencySymbol)}
             big
           />
         </DashboardCard>
-        <DashboardCard className="col-span-3">
+        <DashboardCard className="col-span-6 md:col-span-3">
           <StatCard
             title="Income"
             subtitle={"(" + currentMonth + ")"}
             value={formatCurrencyValue(data.currentMonthIncome, currencySymbol)}
           />
         </DashboardCard>
-        <DashboardCard className="col-span-3">
+        <DashboardCard className="col-span-6 md:col-span-3">
           <StatCard
             title={"Expenses"}
             subtitle={"(" + currentMonth + ")"}
@@ -55,7 +55,7 @@ const DashboardPage = () => {
             }
           />
         </DashboardCard>
-        <DashboardCard className="col-span-3">
+        <DashboardCard className="col-span-6 md:col-span-3">
           <StatCard
             title="Net"
             subtitle={"(" + currentMonth + ")"}
@@ -65,10 +65,10 @@ const DashboardPage = () => {
             )}
           />
         </DashboardCard>
-        <DashboardCard className="col-span-4">
+        <DashboardCard className="col-span-12 md:col-span-4">
           <RecentTransactionCard recentExpenses={data.recentExpenses} />
         </DashboardCard>
-        <DashboardCard className="col-span-8">
+        <DashboardCard className="col-span-12 md:col-span-8">
           <SpendingsByCategoryCard spendings={data.spendingByCategory} />
         </DashboardCard>
         <DashboardCard className="col-span-12">

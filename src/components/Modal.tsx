@@ -14,7 +14,7 @@ const Modal: React.FC<OwnProps> = ({ onClose, children }) => {
       />
 
       <div className="fixed inset-0 flex items-center justify-center z-200 pointer-events-none shadow">
-        <div className="w-full max-w-md rounded-lg bg-white p-10 text-center shadow pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700">
+        <div className="w-full max-w-md rounded-lg bg-white mx-4 p-4 md:p-10 text-center shadow pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700">
           {children}
         </div>
       </div>

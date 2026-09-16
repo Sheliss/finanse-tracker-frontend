@@ -11,7 +11,7 @@ const MonthlySpendingCard: React.FC<OwnProps> = ({ chartData }) => {
       <div className="mb-4 font-bold text-lg dark:text-white">
         Spending history
       </div>
-      <div className="w-full">
+      <div className="w-full overflow-x-auto">
         <SpendingByMonthChart chartData={chartData} />
       </div>
     </div>
